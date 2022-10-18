@@ -1,11 +1,11 @@
 #include <unistd.h>
 
 /**
- * _putchar - writes a single character to the screen
- * @c: character to be printed to the screen.
- * Return: 1 on success, -1 on error
+ * _putchar - print char
+ * @ch: char to print
+ * Returun: output
  */
-int _putchar(char c)
+int _putchar(char ch)
 {
-	return (write(1, &c, 1));
+	return (write(1, &ch, 1));
 }

@@ -1,83 +1,50 @@
 #include "main.h"
 
 /**
- * check_format - check if there is a valid format specifier
- * @format: possible valid format specifier
- * Return: pointer to valid function or NULL
+ * _printf - print formatted data to stdout
+ * @format: string tat contains the format
+ * Return: number of chars written
  */
-int (*check_format(const char *format))(va_list)
+int _printf(char *format, ...)
 {
-	int i = 0;
-	prt p[] = {
-		/*{"c", print_c},
-		{"s", print_s},*/
-		{"i", print_i},
-		{"d", print_d},
-		/*{"f", print_f},
-		{"e", print_e},
-		{"g", print_g},
-		{"u", print_u},
-		{"o", print_o},
-		{"x", print_x},
-		{"X", print_X},
-		{"p", print_p}, */
-		{NULL, NULL}
-	};
-
-	for (; p[i].t != NULL; i++)
-	{
-		if (*(p[i].t) == *format)
-			break;
-	}
-	return (p[i].f);
-}
-
-/**
- * _printf - print the format provided
- * @format: list of arguments to print
- * Return: number of characters to print
- */
-int _printf(const char *format, ...)
-{
-	va_list appl;
-	int (*f)(va_list);
-	unsigned int i = 0, counter = 0;
+	int written = 0, (*prt)(char *, va_list);
+	char t[3];
+	va_list pa;
 
 	if (format == NULL)
 		return (-1);
-
-	va_start(appl, format);
-	while (format && format[i])
+	t[2] = '\0';
+	va_start(pa, format);
+	_putchar(-1);
+	while (format[0])
 	{
-		if (format[i] != '%')
+		if (format[0] == '%')
 		{
-			_putchar(format[i]);
-			counter++;
-			i++;
-			continue;
-		}
-		else
-		{
-			if (format[i + 1] == '%')
+			prt = formatt(format);
+			if (prt)
 			{
-				_putchar('%');
-				counter++;
-				i += 2;
-				continue;
+				t[0] = '%';
+				t[1] = format[1];
+				written += prt(t, pa);
+			}
+			else if (format[1] != '\0')
+			{
+				written += _putchar('%');
+				written += _putchar(format[1]);
 			}
 			else
 			{
-				f = check_format(&format[i + 1]);
-				if (f == NULL)
-					return (-1);
-
-				i += 2;
-				counter += f(appl);
-				continue;
+				written += _putchar('%');
+				break;
 			}
+			format += 2;
 		}
-		i++;
+		else
+		{
+			written += _putchar(format[0]);
+			format++;
+		}
 	}
-	va_end(appl);
-	return (counter);
+	_putchar(-2);
+	return (written);
 }

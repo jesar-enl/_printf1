@@ -1,45 +1,37 @@
 #ifndef FUNC_PROTO_H
 #define FUNC_PROTO_H
 
+#include <stdarg.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdarg.h>
+#include <stddef.h>
 
 /**
- * struct print - a structure for printing types of specifiers
- * @t: type to print
+ * struct print - structure to print the functions
+ * @t: type of specifier
  * @f: function to print
+ * Return: int
  */
 typedef struct print
 {
 	char *t;
-	int (*f)(va_list);
+	int (*f)(char *format, va_list);
 } prt;
 
-int _printf(const char *format, ...);
-int _putchar(char c);
-int print_c(va_list c); /* single character */
-int print_s(va_list s); /* string */
-int print_i(va_list i); /* integer, detects base automatically */
-int print_d(va_list d); /* assumes integer is in base 10 */
-int print_f(va_list f); /* floating point numbers */
-int print_e(va_list e); /* floating point in scientific form */
-int print_g(va_list g); /* floating point in scientific form */
-int print_l(va_list l); /* long */
-int print_0(va_list zero);
-int print_h(va_list h);
-int print_u(va_list u); /* unsigned int */
-int print_b(va_list b); /* binary format */
-int print_o(va_list o); /* octal notation */
-int print_x(va_list x); /* unsigned hexadecimal */
-int print_X(va_list X); /* unsigned hexadecimal */
-int print_p(va_list p); /* pointer - address printing */
-int print_S(va_list S); 
-int print_r(va_list r); /* unknown specifier for reverse string */
-int print_R(va_list R); /* print the rot13 string */
-int print_add(va_list add);
-int print_space(va_list space);
-int print_sharp(va_list sharp);
-int print_less(va_list less);
+int _putchar(char ch);
+int _puts(char *string);
+int print_c(char *format, va_list pa);
+int print_s(char *format, va_list pa);
+int (*formatt(char *format))(char *format, va_list);
+int _printf(char *format, ...);
+int printint(char *format, va_list pa);
+int integer(int number);
+int contadordigit(int number);
+int _abs(int number);
+int print_pc(char *format, va_list pa);
+int print_x(char *format, va_list);
+int print_X(char *format, va_list);
+int print_o(char *format, va_list);
+int print_u(char *format, va_list);
 
 #endif /* FUNC_PROTO_H */
